@@ -77,8 +77,8 @@ else:
     df_filtered['cumulative_wins'] = df_filtered['win'].cumsum()
     df_filtered['cumulative_losses'] = df_filtered['loss'].cumsum()
     
-    pie_colors= ["#F43636", "#28F321"]
-    line_colors = ["#F43636", "#28F321"]
+    pie_colors= ["#28F321", "#F43636"]
+    line_colors = ["#28F321", "#F43636"]
 
    
     df_line_chart = df_filtered.set_index('date_game')[['cumulative_wins', 'cumulative_losses']]
@@ -134,3 +134,4 @@ else:
         ax2.axis('equal')  
         
         st.pyplot(fig_pie)
+
