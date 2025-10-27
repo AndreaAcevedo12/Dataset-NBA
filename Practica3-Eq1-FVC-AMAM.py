@@ -77,37 +77,36 @@ else:
     df_filtered['cumulative_wins'] = df_filtered['win'].cumsum()
     df_filtered['cumulative_losses'] = df_filtered['loss'].cumsum()
     
-    # Crear un eje X de 'Número de Juego' para el plot
-    df_filtered['game_num'] = range(1, len(df_filtered) + 1)
+    pie_colors= ["#F43636", "#28F321"]
+    line_colors = ["#F43636", "#28F321"]
+
+   
+    df_line_chart = df_filtered.set_index('date_game')[['cumulative_wins', 'cumulative_losses']]
     
+    df_line_chart = df_line_chart.rename(columns={
+        'cumulative_wins': 'Ganados (W)',
+        'cumulative_losses': 'Perdidos (L)'
+    })
 
     total_wins = df_filtered['win'].sum()
     total_losses = df_filtered['loss'].sum()
     pie_data = [total_wins, total_losses]
     pie_labels = [f'Ganados (W): {total_wins}', f'Perdidos (L): {total_losses}']
-    colors = ['#4CAF50', '#F44336']
 
-    # Mostrar el Dashboard
+
     st.title(f"Dashboard NBA: {selected_team}")
     st.header(f"Año: {selected_season} | Tipo: {game_type}")
     
-    col1, col2 = st.columns([2, 1])
+    col1, col2 = st.columns([2, 1]) 
 
     with col1:
         st.subheader("Juegos ganados y perdidos acumulados")
         
-        fig_line = plt.figure(figsize=(12, 6))
-        ax1 = fig_line.add_subplot(111)
-        
-        ax1.plot(df_filtered['game_num'], df_filtered['cumulative_wins'], label='Ganados acumulados', color='green', linewidth=2)
-        ax1.plot(df_filtered['game_num'], df_filtered['cumulative_losses'], label='Perdidos acumulados', color='red', linewidth=2)
-        
-        ax1.set_xlabel('Número de juego en la temporada')
-        ax1.set_ylabel('Total acumulado')
-        ax1.legend(loc='upper left')
-        ax1.grid(True, linestyle='--', alpha=0.6)
-        
-        st.pyplot(fig_line)
+        st.line_chart(
+            df_line_chart,
+            color=line_colors,
+            use_container_width=True
+        )
 
     with col2:
         st.subheader("Porcentaje de victorias y derrotas")
@@ -123,17 +122,15 @@ else:
                 labels=pie_labels, 
                 autopct='%1.1f%%', 
                 startangle=90, 
-                colors=colors,
+                colors=pie_colors,
                 pctdistance=0.85,
                 textprops={'color': 'black', 'fontsize': 10}
             )
             centre_circle = plt.Circle((0,0),0.70,fc='white')
             fig_pie.gca().add_artist(centre_circle)
-            
             plt.setp(autotexts, size=12, weight="bold", color="white")
             
         ax2.set_title(f"Total de juegos: {total_wins + total_losses}", pad=20)
-        ax2.axis('equal')
+        ax2.axis('equal')  
         
-
         st.pyplot(fig_pie)
