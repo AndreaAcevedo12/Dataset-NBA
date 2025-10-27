@@ -23,9 +23,9 @@ if df.empty:
     st.stop()
 
 # Barra lateral
-st.sidebar.header("Filtros del Dashboard")
+st.sidebar.header("Filtros del dashboard")
 
-#Selección de año
+# Selección de año
 season_list = df['year_id'].unique()
 season_list.sort()
 
@@ -35,22 +35,22 @@ team_list.sort()
 
 # Selección de temporada
 selected_season = st.sidebar.selectbox(
-    'Seleccionar Año (Temporada):',
+    'Seleccionar año (Temporada):',
     season_list,
     index=len(season_list) - 1 
 )
 
 # Selección de equipo
 selected_team = st.sidebar.selectbox(
-    'Seleccionar Equipo:',
+    'Seleccionar equipo:',
     team_list,
     index=list(team_list).index('NYK') if 'NYK' in team_list else 0
 )
 
 # Selección de tipo de juego
 game_type = st.sidebar.radio(
-    'Seleccionar Tipo de Juego:',
-    ['Temporada Regular', 'Playoffs', 'Ambos'],
+    'Seleccionar el tipo de juego:',
+    ['Temporada regular', 'Playoffs', 'Ambos'],
     horizontal=True 
 )
 
@@ -60,7 +60,7 @@ df_filtered = df[
     (df['team_id'] == selected_team)
 ]
 
-if game_type == 'Temporada Regular':
+if game_type == 'Temporada regular':
     df_filtered = df_filtered[df_filtered['is_playoffs'] == 0]
 elif game_type == 'Playoffs':
     df_filtered = df_filtered[df_filtered['is_playoffs'] == 1]
@@ -132,7 +132,8 @@ else:
             
             plt.setp(autotexts, size=12, weight="bold", color="white")
             
-        ax2.set_title(f"Total de Juegos: {total_wins + total_losses}", pad=20)
+        ax2.set_title(f"Total de juegos: {total_wins + total_losses}", pad=20)
         ax2.axis('equal')
         
+
         st.pyplot(fig_pie)
