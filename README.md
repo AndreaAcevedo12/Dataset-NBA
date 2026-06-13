@@ -4,5 +4,3 @@ Este dashboard contiene información acerca de los juegos ganados y los juegos p
 
 El link a la aplicación es:
 https://dataset-nba-acevedofemat.streamlit.app/
-
-La aplicación puede estar inactiva debido a su inactividad. 
